@@ -193,3 +193,41 @@ insert into contract_detail(contract_id,service_id,quantity) values(2,3,1);
 insert into contract_detail(contract_id,service_id,quantity) values(3,2,3);
 
 -- Hiển thị thông tin của tất cả nhân viên có trong hệ thống có tên bắt đầu là một trong các ký tự “H”, “T” hoặc “K” và có tối đa 15 kí tự
+use m3_case_study_db;
+select * 
+from employee
+where (name like 'h%' or name like 't%' or name like 'k%')
+and length(name)<=15;
+
+-- Hiển thị thông tin của tất cả khách hàng có độ tuổi từ 18 đến 50 tuổi và
+-- có địa chỉ ở “Đà Nẵng” hoặc “Quảng Trị”
+select * 
+from customer where (birthday >= 18 or birthday <= 50) and
+address = 'Da Nang' or address = 'Quang Tri';
+
+-- Đếm xem tương ứng với mỗi khách hàng đã từng đặt phòng bao nhiêu lần.
+-- Kết quả hiển thị được sắp xếp tăng dần theo số lần đặt phòng của khách
+-- hàng. Chỉ đếm những khách hàng nào có  Tên  loại   khách   hàng  là “Diamond”
+select c.id, c.name, count(ct.customer_id) as book_times
+from customer c
+inner join contract ct on c.id = ct.customer_id
+where guest_id = 1
+group by c.id
+order by book_times asc;
+
+-- Hiển   thị  ma_khach_hang,   ho_ten,   ten_loai_khach,   ma_hop_dong,
+-- ten_dich_vu,   ngay_lam_hop_dong,   ngay_ket_thuc,   tong_tien  (Với
+-- tổng tiền được tính theo công thức như sau: Chi Phí Thuê + Số Lượng *
+-- Giá,   với   Số   Lượng   và   Giá   là   từ   bảng   dich_vu_di_kem,
+-- hop_dong_chi_tiet) cho tất cả các khách hàng đã từng đặt phòng. (những
+-- khách hàng nào chưa từng đặt phòng cũng phải hiển thị ra)
+select c.id, c.name, ts.name as type_customer, ct.id as contract_id, sv.name as service_name,
+ct.start_time, ct.end_time, (sv.cost+sum(ctdt.quantity*adsv.price)) as total_price
+from customer c
+left join type_customer ts on c.guest_id = ts.id
+left join contract ct on c.id = ct.customer_id
+left join service sv on ct.service_id = sv.id
+left join contract_detail ctdt on ct.id = ctdt.contract_id
+left join add_service adsv on ctdt.service_id = adsv.id
+group by c.id,c.name,ts.name,ct.id,sv.name,ct.start_time,ct.end_time;
+
