@@ -98,7 +98,7 @@ quantity int
 
 use m3_case_study_db;
 
--- insert cac thong tin vao table 
+-- 1/ insert cac thong tin vao table 
 insert into office(id,name) values(1,'Le Tan');
 insert into office(id,name) values(2,'Buong Phong');
 insert into office(id,name) values(3,'Dau Bep');
@@ -192,22 +192,19 @@ insert into contract_detail(contract_id,service_id,quantity) values(1,1,1);
 insert into contract_detail(contract_id,service_id,quantity) values(2,3,1);
 insert into contract_detail(contract_id,service_id,quantity) values(3,2,3);
 
--- Hiển thị thông tin của tất cả nhân viên có trong hệ thống có tên bắt đầu là một trong các ký tự “H”, “T” hoặc “K” và có tối đa 15 kí tự
+-- 2/ Hiển thị thông tin của tất cả nhân viên có trong hệ thống có tên bắt đầu là một trong các ký tự “H”, “T” hoặc “K” và có tối đa 15 kí tự
 use m3_case_study_db;
 select * 
 from employee
 where (name like 'h%' or name like 't%' or name like 'k%')
 and length(name)<=15;
 
--- Hiển thị thông tin của tất cả khách hàng có độ tuổi từ 18 đến 50 tuổi và
--- có địa chỉ ở “Đà Nẵng” hoặc “Quảng Trị”
+-- 3/ Hiển thị thông tin của tất cả khách hàng có độ tuổi từ 18 đến 50 tuổi và có địa chỉ ở “Đà Nẵng” hoặc “Quảng Trị”
 select * 
 from customer where (birthday >= 18 or birthday <= 50) and
 address = 'Da Nang' or address = 'Quang Tri';
 
--- Đếm xem tương ứng với mỗi khách hàng đã từng đặt phòng bao nhiêu lần.
--- Kết quả hiển thị được sắp xếp tăng dần theo số lần đặt phòng của khách
--- hàng. Chỉ đếm những khách hàng nào có  Tên  loại   khách   hàng  là “Diamond”
+-- 4/ Đếm xem tương ứng với mỗi khách hàng đã từng đặt phòng bao nhiêu lần. Kết quả hiển thị được sắp xếp tăng dần theo số lần đặt phòng của khách hàng. Chỉ đếm những khách hàng nào có  Tên  loại   khách   hàng  là “Diamond”
 select c.id, c.name, count(ct.customer_id) as book_times
 from customer c
 inner join contract ct on c.id = ct.customer_id
@@ -215,7 +212,7 @@ where guest_id = 1
 group by c.id
 order by book_times asc;
 
--- Hiển   thị  ma_khach_hang,   ho_ten,   ten_loai_khach,   ma_hop_dong,
+-- 5/ Hiển   thị  ma_khach_hang,   ho_ten,   ten_loai_khach,   ma_hop_dong,
 -- ten_dich_vu,   ngay_lam_hop_dong,   ngay_ket_thuc,   tong_tien  (Với
 -- tổng tiền được tính theo công thức như sau: Chi Phí Thuê + Số Lượng *
 -- Giá,   với   Số   Lượng   và   Giá   là   từ   bảng   dich_vu_di_kem,
@@ -230,4 +227,69 @@ left join service sv on ct.service_id = sv.id
 left join contract_detail ctdt on ct.id = ctdt.contract_id
 left join add_service adsv on ctdt.service_id = adsv.id
 group by c.id,c.name,ts.name,ct.id,sv.name,ct.start_time,ct.end_time;
+
+
+-- 6/ Hiển thị  ma_dich_vu,   ten_dich_vu,   dien_tich,   chi_phi_thue, ten_loai_dich_vu của tất cả các loại dịch vụ chưa từng được khách hàng
+-- thực hiện đặt từ quý 1 của năm 2021 (Quý 1 là tháng 1, 2, 3)
+use m3_case_study_db;
+insert into contract(id,start_time,end_time,deposit,employee_id,customer_id,service_id)
+values(4,'2021-2-23','2021-3-23',100,3,1,3);
+update contract ct set ct.start_time = '2021-2-23 10:45:20' where id = 4;
+update contract ct set ct.end_time = '2021-3-23 10:45:50' where id = 4;
+
+select sv.id,sv.name,sv.area,sv.cost,ts.name
+from service sv
+left join type_service ts on sv.type_service_id = ts.id
+left join contract ct on sv.id = ct.service_id
+where sv.id not in(select distinct ct.service_id
+from contract ct
+where year(ct.start_time) = 2021 and quarter(ct.start_time) = 1);
+
+
+-- 7/ Hiển   thị   thông   tin  ma_dich_vu,   ten_dich_vu,   dien_tich, so_nguoi_toi_da,   chi_phi_thue,   ten_loai_dich_vu  của tất cả các loại
+-- dịch vụ đã từng được khách hàng đặt phòng trong năm 2020
+-- nhưng chưa từng được khách hàng đặt phòng trong năm 2021
+update contract ct set ct.start_time = '2020-5-23 10:45:20' where id = 2;
+update contract ct set ct.end_time = '2020-5-25 10:45:50' where id = 2;
+
+select sv.id,sv.name,sv.area,sv.max,sv.cost,ts.name
+from service sv
+left join type_service ts on sv.type_service_id = ts.id
+left join contract ct on sv.id = ct.service_id
+where sv.id in(select distinct ct.service_id
+from contract ct
+where year(ct.start_time) = 2020 and not year(ct.start_time) = 2021);
+
+
+-- 8/ Hiển thị thông tin  ho_ten  khách hàng  có trong hệ thống, với yêu cầu ho_ten không trùng nhau. Học viên sử dụng theo 3 cách khác nhau để thực hiện yêu cầu trên
+insert into customer(guest_id,name,birthday,customer_id,phone,email,address)
+values(3,'Nguyen Manh','1990-10-12',048079900082,0908890777,'manh@gmail.com','Da Nang');
+-- cach 1
+select distinct name
+from customer;
+-- cach 2
+select name
+from customer
+group by name;
+-- cach 3
+select c.name
+from customer c where c.id = (select min(id) from customer where name = c.name);
+
+
+-- 9/ Thực hiện thống kê doanh thu theo tháng, nghĩa là tương ứng với mỗi tháng trong năm 2021 thì sẽ có bao nhiêu khách hàng thực hiện đặt phòng.
+insert into contract(id,start_time,end_time,deposit,employee_id,customer_id,service_id)
+values(5,'2021-7-23 10:45:20','2021-8-23 10:45:20',100,2,2,3);
+insert into contract(id,start_time,end_time,deposit,employee_id,customer_id,service_id)
+values(6,'2021-7-10 10:45:20','2021-7-12 10:45:20',50,2,6,4);
+select month(start_time) as month, count(id) as order_quantity
+from contract
+where year(start_time) = 2021
+group by month;
+
+
+-- 10/ Hiển thị thông tin tương ứng với từng hợp đồng thì đã sử dụng bao nhiêu
+-- dịch   vụ   đi   kèm.   Kết   quả   hiển   thị   bao   gồm  ma_hop_dong,
+-- ngay_lam_hop_dong,   ngay_ket_thuc,   tien_dat_coc,
+-- so_luong_dich_vu_di_kem  (được tính dựa trên việc sum so_luong ở
+-- dich_vu_di_kem)
 
