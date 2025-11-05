@@ -228,7 +228,6 @@ left join contract_detail ctdt on ct.id = ctdt.contract_id
 left join add_service adsv on ctdt.service_id = adsv.id
 group by c.id,c.name,ts.name,ct.id,sv.name,ct.start_time,ct.end_time;
 
-
 -- 6/ Hiển thị  ma_dich_vu,   ten_dich_vu,   dien_tich,   chi_phi_thue, ten_loai_dich_vu của tất cả các loại dịch vụ chưa từng được khách hàng
 -- thực hiện đặt từ quý 1 của năm 2021 (Quý 1 là tháng 1, 2, 3)
 use m3_case_study_db;
@@ -245,7 +244,6 @@ where sv.id not in(select distinct ct.service_id
 from contract ct
 where year(ct.start_time) = 2021 and quarter(ct.start_time) = 1);
 
-
 -- 7/ Hiển   thị   thông   tin  ma_dich_vu,   ten_dich_vu,   dien_tich, so_nguoi_toi_da,   chi_phi_thue,   ten_loai_dich_vu  của tất cả các loại
 -- dịch vụ đã từng được khách hàng đặt phòng trong năm 2020
 -- nhưng chưa từng được khách hàng đặt phòng trong năm 2021
@@ -259,7 +257,6 @@ left join contract ct on sv.id = ct.service_id
 where sv.id in(select distinct ct.service_id
 from contract ct
 where year(ct.start_time) = 2020 and not year(ct.start_time) = 2021);
-
 
 -- 8/ Hiển thị thông tin  ho_ten  khách hàng  có trong hệ thống, với yêu cầu ho_ten không trùng nhau. Học viên sử dụng theo 3 cách khác nhau để thực hiện yêu cầu trên
 insert into customer(guest_id,name,birthday,customer_id,phone,email,address)
@@ -275,21 +272,49 @@ group by name;
 select c.name
 from customer c where c.id = (select min(id) from customer where name = c.name);
 
-
 -- 9/ Thực hiện thống kê doanh thu theo tháng, nghĩa là tương ứng với mỗi tháng trong năm 2021 thì sẽ có bao nhiêu khách hàng thực hiện đặt phòng.
 insert into contract(id,start_time,end_time,deposit,employee_id,customer_id,service_id)
 values(5,'2021-7-23 10:45:20','2021-8-23 10:45:20',100,2,2,3);
 insert into contract(id,start_time,end_time,deposit,employee_id,customer_id,service_id)
 values(6,'2021-7-10 10:45:20','2021-7-12 10:45:20',50,2,6,4);
+
 select month(start_time) as month, count(id) as order_quantity
 from contract
 where year(start_time) = 2021
 group by month;
 
-
--- 10/ Hiển thị thông tin tương ứng với từng hợp đồng thì đã sử dụng bao nhiêu
--- dịch   vụ   đi   kèm.   Kết   quả   hiển   thị   bao   gồm  ma_hop_dong,
+-- 10/ Hiển thị thông tin tương ứng với từng hợp đồng thì đã sử dụng bao nhiêu dịch   vụ   đi   kèm.   Kết   quả   hiển   thị   bao   gồm  ma_hop_dong,
 -- ngay_lam_hop_dong,   ngay_ket_thuc,   tien_dat_coc,
 -- so_luong_dich_vu_di_kem  (được tính dựa trên việc sum so_luong ở
 -- dich_vu_di_kem)
+select ct.id, ct.start_time, ct.end_time, ct.deposit,sum(cd.quantity) as quantity
+from contract ct
+left join contract_detail cd on ct.id = cd.contract_id
+group by ct.id,ct.start_time, ct.end_time, ct.deposit;
+
+-- 11/ Hiển thị thông tin các dịch vụ đi kèm đã được sử dụng bởi những khách
+-- hàng có ten_loai_khach  là  “Diamond”  và có dia_chi ở “Vinh” hoặc “Quảng Ngãi”
+select adsv.id as id, adsv.name as name
+from add_service adsv
+join contract_detail cd on adsv.id = cd.service_id
+join contract ct on cd.contract_id = ct.id
+join customer c on ct.customer_id = c.id
+join type_customer tc on c.guest_id = tc.id
+where tc.name = 'Diamond' and (c.address = 'Vinh' or c.address = 'Quang Ngai');
+
+-- 12/ Hiển thị thông tin  ma_hop_dong,  ho_ten  (nhân viên),  ho_ten  (khách hàng),  so_dien_thoai  (khách   hàng),  ten_dich_vu, so_luong_dich_vu_di_kem  (được tính dựa trên việc sum so_luong ở dich_vu_di_kem),
+-- tien_dat_coc của tất cả các dịch vụ đã từng được khách
+-- hàng đặt vào 3 tháng cuối năm 2020 nhưng chưa từng được khách hàng
+-- đặt vào 6 tháng đầu năm 2021
+select ct.id as id, e.name as employee_name, c.name as customer_name, c.phone as customer_phone,
+sv.name as service_name, sum(cd.quantity) as quantity, ct.deposit as deposit
+from contract ct
+join employee e on ct.employee_id = e.id
+join customer c on ct.customer_id = c.id
+join service sv on ct.service_id = sv.id
+join contract_detail cd on ct.id = cd.contract_id
+where (year(ct.start_time) = 2020 and quarter(ct.start_time) = 4)
+and sv.id not in (select distinct cnt.service_id from contract cnt where year(cnt.start_time) = 2021 and quarter(cnt.start_time) in (1,2))
+group by id, employee_name, customer_name, customer_phone, service_name,deposit;
+
 
