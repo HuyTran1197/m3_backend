@@ -314,7 +314,65 @@ join customer c on ct.customer_id = c.id
 join service sv on ct.service_id = sv.id
 join contract_detail cd on ct.id = cd.contract_id
 where (year(ct.start_time) = 2020 and quarter(ct.start_time) = 4)
-and sv.id not in (select distinct cnt.service_id from contract cnt where year(cnt.start_time) = 2021 and quarter(cnt.start_time) in (1,2))
+and sv.id not in (select distinct cnt.service_id
+from contract cnt
+where year(cnt.start_time) = 2021
+and quarter(cnt.start_time) in (1,2))
 group by id, employee_name, customer_name, customer_phone, service_name,deposit;
 
+insert into contract_detail(contract_id,service_id,quantity)
+values(4,4,2);
+insert into contract_detail(contract_id,service_id,quantity)
+values(5,2,2);
+insert into contract_detail(contract_id,service_id,quantity)
+values(6,1,1);
+
+-- 13/ Hiển thị thông tin các Dịch vụ đi kèm được sử dụng nhiều nhất bởi các
+-- Khách hàng đã đặt phòng. (Lưu ý là có thể có nhiều dịch vụ có số lần sử
+-- dụng nhiều như nhau)
+use m3_case_study_db;
+select cd.service_id as id, adsv.name as name, sum(quantity) as so_luong
+from contract_detail cd
+join add_service adsv on cd.service_id = adsv.id
+group by id, name
+having so_luong >= all (select sum(quantity)
+from contract_detail
+group by service_id);
+
+-- 14/ Hiển thị thông tin tất cả các Dịch vụ đi kèm chỉ mới được sử dụng một lần duy nhất.
+-- Thông tin hiển thị bao gồm ma_hop_dong, ten_loai_dich_vu, ten_dich_vu_di_kem, so_lan_su_dung
+-- (được tính dựa trên việc count các ma_dich_vu_di_kem)
+select ct.id as contract_id, ts.name as type_name, adsv.name as name_service, count(cd.service_id) as times
+from contract ct
+join service sv on ct.service_id = sv.id
+join type_service ts on sv.type_service_id = ts.id
+join contract_detail cd on ct.id = cd.contract_id
+join add_service adsv on cd.service_id = adsv.id
+where cd.service_id in (select service_id
+from contract_detail
+group by service_id
+having count(service_id) = 1)
+group by ct.id, ts.name, adsv.name
+order by ct.id;
+
+select service_id from contract_detail group by service_id having count(service_id) = 1;
+
+-- 15/ Hiển thi thông tin của tất cả nhân viên bao gồm ma_nhan_vien, ho_ten, ten_trinh_do, ten_bo_phan, so_dien_thoai,
+-- dia_chi mới chỉ lập được tối đa 3 hợp đồng từ năm 2020 đến 2021
+select e.id as id, e.name as name, lv.name as level, d.name as department, e.phone as phone, e.address as address,
+year(ct.start_time) as year_contract
+from employee e
+join level lv on e.level_id = lv.id
+join department d on e.department_id = d.id
+join contract ct on e.id = ct.employee_id
+where ct.employee_id in (select employee_id 
+from contract 
+group by employee_id 
+having count(employee_id)<=3) and year(ct.start_time) in (2020,2021);
+
+-- 16/ lọc nhân viên chưa từng làm hợp đồng từ năm 2019 đến 2021
+select e.id as id, e.name as name, year(ct.start_time) as year_contract
+from employee e
+join contract ct on e.id = ct.employee_id
+where year(ct.start_time) not in (2019,2020,2021);
 
