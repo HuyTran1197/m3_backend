@@ -219,7 +219,7 @@ order by book_times asc;
 -- hop_dong_chi_tiet) cho tất cả các khách hàng đã từng đặt phòng. (những
 -- khách hàng nào chưa từng đặt phòng cũng phải hiển thị ra)
 select c.id, c.name, ts.name as type_customer, ct.id as contract_id, sv.name as service_name,
-ct.start_time, ct.end_time, (sv.cost+sum(ctdt.quantity*adsv.price)) as total_price
+ct.start_time, ct.end_time, ((sv.cost*(day(ct.end_time)-day(ct.start_time)))+sum(ctdt.quantity*adsv.price)) as total_price
 from customer c
 left join type_customer ts on c.guest_id = ts.id
 left join contract ct on c.id = ct.customer_id
@@ -387,4 +387,3 @@ join add_service adsv on cd.service_id = adsv.id
 where year(ct.start_time) = 2021
 group by c.id,c.name,c.guest_id,sv.cost,ct.start_time,ct.end_time
 having ((sv.cost*(day(ct.end_time)-day(ct.start_time)))+sum(cd.quantity*adsv.price)) > 380.52;
-
