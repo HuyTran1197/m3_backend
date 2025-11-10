@@ -371,14 +371,22 @@ group by employee_id
 having count(employee_id)<=3) and year(ct.start_time) in (2020,2021);
 
 -- 16/ lọc nhân viên chưa từng làm hợp đồng từ năm 2019 đến 2021
-select e.id as id, e.name as name, year(ct.start_time) as year_contract
+select e.id,e.name
 from employee e
-join contract ct on e.id = ct.employee_id
-where year(ct.start_time) not in (2019,2020,2021);
+left join contract c on e.id = c.employee_id
+and (year(c.start_time) in (2019,2020,2021))
+where c.employee_id is null;
+-- xoa
+delete e 
+from employee e
+left join contract c on e.id = c.employee_id
+and (year(c.start_time) in (2019,2020,2021))
+where c.employee_id is null;
+
 
 -- 17/ Cập nhật thông tin những khách hàng có ten_loai_khach từ Platinum lên Diamond, chỉ cập nhật những khách hàng đã từng đặt phòng với Tổng Tiền thanh toán trong năm 2021 là lớn hơn 10.000.000 VNĐ.
--- chi phí được quy đổi 1 (USD) ~ 26000 (VND)
-select c.id as id, c.name as name, c.guest_id as type_customer
+-- chi phí được quy đổi 1 (USD) ~ 26000 (VND) => 10tr ~ 380.52 USD
+select c.id as id, c.name as name, c.guest_id as type_customer_id
 from customer c
 join contract ct on c.id = ct.customer_id
 join service sv on ct.service_id = sv.id
@@ -387,3 +395,5 @@ join add_service adsv on cd.service_id = adsv.id
 where year(ct.start_time) = 2021
 group by c.id,c.name,c.guest_id,sv.cost,ct.start_time,ct.end_time
 having ((sv.cost*(day(ct.end_time)-day(ct.start_time)))+sum(cd.quantity*adsv.price)) > 380.52;
+
+
