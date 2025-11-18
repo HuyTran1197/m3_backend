@@ -28,16 +28,34 @@
     </div>
     <div class="row main">
         <div class="col-s-12 col-m-4 col-l-4 left">
-            <p class="video-thumb" data-video="https://dragonballwiki.net/xemphim/db-movie/dragon-ball-z-vietsub/?fb_comment_id=2856480094395310_4150152901694683">Dragon ball</p>
+            <div class="row">
+                    <div style="text-align: center" class="video-thumb" data-video="https://dragonballwiki.net/xemphim/db-movie/dragon-ball-z-vietsub/?fb_comment_id=2856480094395310_4150152901694683">
+                        <img src="https://jbagy.me/wp-content/uploads/2025/03/Hinh-anh-avatar-dragon-ball-super-cool-ngau-1.png">
+                        <b>Dragon Ball Z</b>
+                    </div>
+            </div>
+            <div class="row">
+                <div class="col-s-12 col-m-12 col-l-12">
+                    <div style="text-align: center" class="video-thumb" data-video="https://boctem.com/doraemon-movie-tron-bo/">
+                        <img src="https://cdn.tienphong.vn/images/61144948b9c6ebf4737a5dc317b874529094075363d99b8192d10757c866419369f384185ae7f362085b48e6b392b935/tit_TZJP.png">
+                        <b>Doraemon</b>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-s-12 col-m-12 col-l-12">
+                    <div style="text-align: center" class="video-thumb" data-video="https://boctem.com/search/conan">
+                        <img src="https://jbagy.me/wp-content/uploads/2025/03/Hinh-anh-conan-dep-chat-lu-1.jpg">
+                        <b>Conan</b>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="col-s-12 col-m-8 col-l-8 right">
-            <iframe width="100%" height="75%"
+            <iframe id="dragonball" width="100%" height="100%"
                     src="https://dragonballwiki.net/xemphim/db-movie/dragon-ball-z-vietsub/?fb_comment_id=2856480094395310_4150152901694683"
                     frameborder="0" allowfullscreen>
             </iframe>
-            <p>dragon ball là 1 bộ phim hoạt hình tuổi thơ phủ sóng kí ức thế hệ 8x đầu 9x. Truyện kể về cuộc sống xung quanh chàng trai Son Goku và những người bạn.
-            Với năng lực từ ngoài hành tinh, người Saiyan luôn trở nên mạnh mẽ hơn sau mỗi trận đấu</p>
-            <p>Một điều thú vị ở phim là khi thu thập đủ 7 viên ngọc rồng thì có thể xin điều uớc từ rồng thần, quyền năng của ông có thể nói là làm được mọi thứ, đôi khi cũng có ngoại lệ và rồng thần cũng có lí trí.</p>
         </div>
     </div>
     <div class="footer">@2025 thiết kế web bởi animedn.net</div>
@@ -46,13 +64,15 @@
     // Chọn tất cả phần tử thumbnail
     const thumbnails = document.querySelectorAll('.video-thumb');
     // Chọn iframe video chính
-    const mainVideo = document.getElementById('mainVideo');
+    const dragonBall = document.getElementById('dragonball');
+    // const doraemon = document.getElementById('doraemon');
 
     // Duyệt từng thumbnail và gán sự kiện click
     thumbnails.forEach(thumb => {
+        const videoUrl = thumb.getAttribute('data-video');
         thumb.addEventListener('click', () => {
-            const videoUrl = thumb.getAttribute('data-video'); // Lấy link video từ data-video
-            mainVideo.src = videoUrl; // Thay đổi iframe
+            dragonBall.src = videoUrl;
+            // doraemon.src = videoUrl;
         });
     });
 </script>

@@ -1,0 +1,49 @@
+/* Toàn trang chiếm đủ chiều cao */
+html, body {
+    height: 100%;
+}
+
+/* Căn giữa toàn bộ trang */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f5f5;
+    padding: 40px 0;
+}
+
+/* Form chính */
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+}
+
+/* Checkbox */
+.form-signin .checkbox {
+    font-weight: 400;
+}
+
+/* Input chung */
+.form-signin .form-control {
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+}
+
+/* Hiệu ứng focus */
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+
+/* Căn lại margin giữa input */
+.form-signin input[type="email"] {
+    margin-bottom: 10px;
+}
+
+.form-signin input[type="password"] {
+    margin-bottom: 20px;
+}
+
+/* Nút full width đã xử lý bằng w-100 trong HTML */
