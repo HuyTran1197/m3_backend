@@ -86,23 +86,27 @@ ul{
     min-height: 75%;
 }
 .left{
-    background: white;
+    background: #f5f5f5;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    padding: 1%;
 }
 .right{
     background: white;
 }
 .footer{
-    background: black;
+    background: mediumpurple;
     text-align: center;
     align-items: center;
     height: 5%;
-    color: white;
 }
 .row {
     display: flex;
     flex-wrap: wrap;
 }
-
+p{
+    padding: 1%;
+}
 [class*="col-"] {
     width: 100%;
 }

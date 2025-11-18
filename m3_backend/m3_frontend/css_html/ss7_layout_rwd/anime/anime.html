@@ -28,13 +28,33 @@
     </div>
     <div class="row main">
         <div class="col-s-12 col-m-4 col-l-4 left">
-            <p>Doraemon</p>
-            <p>Dragon ball</p>
-            <p>Tay Du Ky</p>
+            <p class="video-thumb" data-video="https://dragonballwiki.net/xemphim/db-movie/dragon-ball-z-vietsub/?fb_comment_id=2856480094395310_4150152901694683">Dragon ball</p>
         </div>
-        <div class="col-s-12 col-m-8 col-l-8 right">right</div>
+        <div class="col-s-12 col-m-8 col-l-8 right">
+            <iframe width="100%" height="75%"
+                    src="https://dragonballwiki.net/xemphim/db-movie/dragon-ball-z-vietsub/?fb_comment_id=2856480094395310_4150152901694683"
+                    frameborder="0" allowfullscreen>
+            </iframe>
+            <p>dragon ball là 1 bộ phim hoạt hình tuổi thơ phủ sóng kí ức thế hệ 8x đầu 9x. Truyện kể về cuộc sống xung quanh chàng trai Son Goku và những người bạn.
+            Với năng lực từ ngoài hành tinh, người Saiyan luôn trở nên mạnh mẽ hơn sau mỗi trận đấu</p>
+            <p>Một điều thú vị ở phim là khi thu thập đủ 7 viên ngọc rồng thì có thể xin điều uớc từ rồng thần, quyền năng của ông có thể nói là làm được mọi thứ, đôi khi cũng có ngoại lệ và rồng thần cũng có lí trí.</p>
+        </div>
     </div>
     <div class="footer">@2025 thiết kế web bởi animedn.net</div>
 </div>
+<script>
+    // Chọn tất cả phần tử thumbnail
+    const thumbnails = document.querySelectorAll('.video-thumb');
+    // Chọn iframe video chính
+    const mainVideo = document.getElementById('mainVideo');
+
+    // Duyệt từng thumbnail và gán sự kiện click
+    thumbnails.forEach(thumb => {
+        thumb.addEventListener('click', () => {
+            const videoUrl = thumb.getAttribute('data-video'); // Lấy link video từ data-video
+            mainVideo.src = videoUrl; // Thay đổi iframe
+        });
+    });
+</script>
 </body>
 </html>
