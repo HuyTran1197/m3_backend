@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>View Image</title>
+  <link rel="stylesheet" href="../../bootstrap/v5.3.8/css/bootstrap.min.css">
+  <style>
+    html, body {
+      font-family: initial;
+      padding: 2%;
+      text-align: center;
+      background: black;
+    }
+    img {
+      max-width: 90%;
+      max-height: 1000vh;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+<script>
+  // Lấy URL ảnh từ query string
+  const params = new URLSearchParams(window.location.search);
+  const imgSrc = params.get('img');
+
+  if(imgSrc){
+    const img = document.createElement('img');
+    img.src = imgSrc;
+    document.body.appendChild(img);
+  } else {
+    document.body.innerHTML = "<p>No image found</p>";
+  }
+</script>
+</body>
+</html>

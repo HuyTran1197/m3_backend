@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo Gallery</title>
+    <link rel="stylesheet" href="../../bootstrap/v5.3.8/css/bootstrap.min.css">
+    <style>
+        html, body {
+            font-family: Georgia, 'Times New Roman', Times, sans-serif;
+        }
+        h5{
+            margin-top: 1%;
+            font-weight: bold;
+            padding: 0.7%;
+        }
+        p {
+            padding: 0.7%;
+        }
+        .card {
+            border: 1px solid #ccc;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: scale(1.01);
+        }
+
+    </style>
+
+</head>
+<body>
+<h5>Responsive Image Gallery</h5>
+<p><b>Resize the browser window to see the effect.</b></p>
+<div class="container-fluid px-3">
+    <div class="row g-3">
+        <div class="col-12 col-sm-6 col-md-3 mb-4">
+            <div class="card h-100">
+                <img src="https://demo.codegym.vn/web/15/gallery/img_fjords.jpg" class="card-img-top">
+                <div class="card-body">
+                    <p class="card-text text-center">Add a description of the image here</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-3 mb-4">
+            <div class="card h-100">
+                <img src="https://demo.codegym.vn/web/15/gallery/img_forest.jpg" class="card-img-top">
+                <div class="card-body">
+                    <p class="card-text text-center">Add a description of the image here</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-3 mb-4">
+            <div class="card h-100">
+                <img src="https://demo.codegym.vn/web/15/gallery/img_lights.jpg" class="card-img-top">
+                <div class="card-body">
+                    <p class="card-text text-center">Add a description of the image here</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-3 mb-4">
+            <div class="card h-100">
+                <img src="https://demo.codegym.vn/web/15/gallery/img_mountains.jpg" class="card-img-top">
+                <div class="card-body">
+                    <p class="card-text text-center">Add a description of the image here</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p>This example use media queries to re-arrange the images on different screen sizes:
+    for screens larger than 700px wide, it will show four images side by side, for screens smaller than 700px,
+    it will show two images side by side. For screens smaller than 500px, the images will stack vertically (100%).
+</p>
+</body>
+<script>
+    // Thêm sự kiện click cho tất cả ảnh trong gallery
+    document.querySelectorAll('.row div img').forEach(img => {
+        img.addEventListener('click', () => {
+            const url = encodeURIComponent(img.src);
+            // Mở view.html trong tab mới
+            window.open(`view.html?img=${url}`, '_blank');
+        });
+    });
+</script>
+</html>
