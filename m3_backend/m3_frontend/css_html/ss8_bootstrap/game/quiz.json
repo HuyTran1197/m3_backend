@@ -1,0 +1,144 @@
+[
+  {
+    "question": "i love u là gì?",
+    "options": {"A":"Anh yêu em", "B":"Em yêu anh", "C":"Bạn thân", "D":"Không biết"},
+    "answer": "A",
+    "feedback": {
+      "A": "Con gái mà anh yêu em cái gì!",
+      "B": "Sai rồi, là anh yêu em đó bây bê",
+      "C": "...",
+      "D": "Sai roài"
+    }
+  },
+  {
+    "question": "Thủ đô đầu tiên của nước Đại Việt là ở đâu?",
+    "options": {"A":"Đà Nẵng", "B":"Sài Gòn", "C":"Ninh Bình", "D":"Bình Định"},
+    "answer": "B",
+    "feedback": {
+      "A": "Sai rồi, cố gắng nhé",
+      "B": "Sài gòn mô mà sài gòn",
+      "C": "Đúng rồi emiu, Ninh Bình xưa chính là kinh đô Hoa Lư",
+      "D": "Really?"
+    }
+  },{
+    "question": "Quốc kỳ Việt Nam có mấy sao?",
+    "options": {"A":"1", "B":"2", "C":"3", "D":"4"},
+    "answer": "A",
+    "feedback": {
+      "A": "Yes sir!",
+      "B": "Đếm lại",
+      "C": "...",
+      "D": "No No No"
+    }
+  },{
+    "question": "Mặc trời mọc ở đằng nào?",
+    "options": {"A":"Bắc", "B":"Nam", "C":"Đông", "D":"Tây"},
+    "answer": "C",
+    "feedback": {
+      "A": "No No No",
+      "B": "Sai rồi",
+      "C": "Mặt trời đã mọc, vậy sáng nay em ăn gì :*",
+      "D": "Sai rồi, thử lại"
+    }
+  },{
+  "question": "Số pi xấp xỉ bao nhiêu?",
+  "options": {"A":"3.14","B":"2.71","C":"1.62","D":"3.41"},
+  "answer": "A",
+  "feedback": {
+    "A":"Đúng rồi!",
+    "B":"Sai, đó là e",
+    "C":"Sai, đó là phi",
+    "D":"Sai, thử lại"
+  }
+ },{
+  "question": "Nước Việt Nam giáp biển nào?",
+  "options": {"A":"Biển Đông","B":"Biển Tây","C":"Đại Tây Dương","D":"Biển Bắc"},
+  "answer": "A",
+  "feedback": {
+    "A":"Thanh Huơng!",
+    "B":"Sai, không phải Biển Tây",
+    "C":"Sai, đi chơi hoài mà không biết hả",
+    "D":"Sai, em có phải người Đà Nẽng khong"
+  }
+ },{
+  "question": "Biển lớn nhất thế giới là gì?",
+  "options": {"A":"Đại Tây Dương","B":"Ấn Độ Dương","C":"Thái Bình Dương","D":"Bắc Băng Dương"},
+  "answer": "C",
+  "feedback": {
+    "A":"Sai rồi",
+    "B":"Sai, không phải Ấn Độ Dương",
+    "C":"Đúng rồi, Thái Bình Dương rộng mênh mông 🌊",
+    "D":"Không"
+  }
+ },{
+    "question": "Em có muốn uống trà sữa không?",
+    "options": {"A":"Có","B":"Không","C":"Chưa biết","D":"Có lẽ"},
+    "answer": "B",
+    "feedback": {
+      "A":"Thứ 7 mỗi cuối tuần là có",
+      "B":"Đúng rồi, đừng uống",
+      "C":"....",
+      "D":"Hãy chọn đi"
+    }
+ },{
+    "question": "Châu Á lớn nhất thế giới đúng hay sai?",
+    "options": {"A":"Đúng","B":"Sai","C":"Không biết","D":"Đứng thứ hai"},
+    "answer": "A",
+    "feedback": {
+      "A":"Đúng rồi, châu Á là lớn nhất!",
+      "B":"Sai rồi, học lại địa lý",
+      "C":"Sai, hãy trả lời chính xác",
+      "D":"Đã đúng hoặc sai rồi còn chọn đứng thứ 2, khẽ què tay"
+    }
+ },{
+    "question": "Cái gì có 'cỗ' nhưng không có 'đầu'?",
+    "options": {"A":"Cái lon","B":"Cái ly","C":"Cái bình","D":"Cái chai"},
+    "answer": "D",
+    "feedback": {
+      "A":"Không",
+      "B":"Chưa đúng",
+      "C":"Gan đúng",
+      "D":"Chinh xác"
+    }
+ },{
+    "question": "Cái gì luôn chạy nhưng khong biet mệt?",
+    "options": {"A":"Cái lon","B":"Van nước","C":"Đồng hồ","D":"Áp-tô-mác"},
+    "answer": "C",
+    "feedback": {
+      "A":"Không",
+      "B":"Chưa đúng",
+      "C":"Yes, mấy giờ rồi emiu",
+      "D":"Không đâu"
+    }
+ },{
+    "question": "Cái gì càng nhiều càng thấy ít?",
+    "options": {"A":"Toán học","B":"Tiền","C":"Bóng tối","D":"Dục vọng"},
+    "answer": "C",
+    "feedback": {
+      "A":"Không",
+      "B":"Chưa đúng",
+      "C":"Hay, càng về đêm tầm nhìn càng ít",
+      "D":"Không đâu"
+    }
+ },{
+    "question": "Tại sao Nhung, Trâm và Thư đang đứng dưới chiếc ô nhưng không ai bị uớt?",
+    "options": {"A":"Không mưa","B":"Ô to","C":"Oto","D":"Đứng trong nhà"},
+    "answer": "A",
+    "feedback": {
+      "A":"Đúng, nắng vẫn có thể mang ô",
+      "B":"Chưa đúng",
+      "C":"Hay, đi ô tô mang ô?",
+      "D":"Đứng trong nhà mang ô chi?"
+    }
+ },{
+    "question": "Bài tủ của bác Hành?",
+    "options": {"A":"Tàu anh qua lúi","B":"Xuân này con không về","C":"Bình minh mang em đi","D":"Vó ngựa trên đổi cỏ non"},
+    "answer": "A",
+    "feedback": {
+      "A":"Ok okkkk, hết cái ly điii",
+      "B":"Chưa đúng",
+      "C":"Ai mang chị Nhung đi vậy",
+      "D":"Hừm, cũng hay nhưng chưa phải"
+    }
+ }
+]

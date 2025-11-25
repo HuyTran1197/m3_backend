@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Hồng Nhung</title>
+  <link rel="stylesheet" href="../../bootstrap/v5.3.8/css/bootstrap.min.css">
+  <style>
+    .row-top, .row-bottom {
+      min-height: 25vh;
+    }
+
+    .game-area {
+      min-height: 20vh;
+    }
+    .game-box {
+      width: 50%;
+      margin: 1% auto;
+      min-height: 35vh;
+    }
+    .game-img {
+      width: 100%;
+      object-fit: cover;
+    }
+
+    /* Mobile: màn hình nhỏ hơn 576px */
+    @media (max-width: 576px) {
+      .game-img {
+        height: 100px;
+      }
+    }
+
+    /* Tablet: từ 576px đến 992px */
+    @media (min-width: 576px) and (max-width: 992px) {
+      .game-img {
+        height: 150px;
+      }
+    }
+
+    /* Laptop & Desktop: từ 992px trở lên */
+    @media (min-width: 992px) {
+      .game-img {
+        height: 200px;
+      }
+    }
+  </style>
+
+</head>
+<body>
+<div class="container-fluid text-center text-danger align-content-between align-items-center">
+  <div class="row g-2 row-top">
+    <div class="col-3">
+      <div class="card h-100">
+        <img src="../img/img.png" class="card-img-top game-img"/>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="card h-100">
+        <img src="../img/img_1.png" class="card-img-top game-img"/></div>
+    </div>
+    <div class="col-3">
+      <div class="card h-100">
+        <img src="../img/img_2.png" class="card-img-top game-img"/></div>
+    </div>
+    <div class="col-3">
+      <div class="card h-100">
+        <img src="../img/img_3.png" class="card-img-top game-img"/></div>
+    </div>
+  </div>
+  <div class="row d-flex justify-content-center align-items-center game-area">
+    <div class="border border-black rounded-5 game-box">
+      <div id="question" class="mb-3 fw-bold">Câu hỏi sẽ hiển thị ở đây</div>
+      <div class="d-grid gap-2">
+        <button class="btn btn-outline-danger" onclick="checkAnswer('A')" id="btnA">A</button>
+        <button class="btn btn-outline-danger" onclick="checkAnswer('B')" id="btnB">B</button>
+        <button class="btn btn-outline-danger" onclick="checkAnswer('C')" id="btnC">C</button>
+        <button class="btn btn-outline-danger" onclick="checkAnswer('D')" id="btnD">D</button>
+      </div>
+    </div>
+  </div>
+  <div class="row g-2 row-bottom">
+    <div class="col-3">
+      <div class="card h-100">
+        <img src="../img/img_4.png" class="card-img-top game-img"/></div>
+    </div>
+    <div class="col-3">
+      <div class="card h-100">
+        <img src="../img/img_5.png" class="card-img-top game-img"/></div>
+    </div>
+    <div class="col-3">
+      <div class="card h-100">
+        <img src="../img/img_6.png" class="card-img-top game-img"/></div>
+    </div>
+    <div class="col-3">
+      <div class="card h-100">
+        <img src="../img/img_7.png" class="card-img-top game-img"/></div>
+    </div>
+  </div>
+</div>
+<script>
+  let quiz = [];
+  let currentQuestion = 0;
+  let attempt = 0; // lượt đoán hiện tại
+
+  function shuffleArray(array) {
+    for(let i = array.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  // Load file quiz.json
+  fetch('quiz.json')
+          .then(res => res.json())
+          .then(data => {
+            quiz = shuffleArray(data); // trộn ngẫu nhiên
+            loadQuestion(); // bắt đầu hiển thị câu hỏi
+          });
+
+  // Hiển thị câu hỏi
+  function loadQuestion(){
+    const q = quiz[currentQuestion];
+    document.getElementById("question").innerText = q.question;
+    document.getElementById("btnA").innerText = "A: " + q.options.A;
+    document.getElementById("btnB").innerText = "B: " + q.options.B;
+    document.getElementById("btnC").innerText = "C: " + q.options.C;
+    document.getElementById("btnD").innerText = "D: " + q.options.D;
+  }
+
+  // Xử lý lựa chọn
+  function checkAnswer(selected){
+    const q = quiz[currentQuestion];
+    attempt++; // tăng lượt đoán
+
+    if(selected === q.answer){
+      alert(q.feedback[selected]);
+      nextQuestion();
+    } else {
+      if(attempt < 2){
+        alert(q.feedback[selected] + "\nEm còn 1 lượt đoán nữa!");
+      } else {
+        alert(q.feedback[selected]);
+        nextQuestion();
+      }
+    }
+  }
+
+  // Chuyển câu hỏi tiếp theo
+  function nextQuestion(){
+    currentQuestion++;
+    attempt = 0; // reset lượt đoán
+    if(currentQuestion < quiz.length){
+      loadQuestion();
+    } else {
+      alert("Tốt lắm, bạn đã hoàn thành tất cả các câu hỏi!");
+      currentQuestion = 0;
+      quiz = shuffleArray(quiz); // trộn lại nếu chơi tiếp
+      loadQuestion();
+    }
+  }
+</script>
+<script src="../../bootstrap/v5.3.8/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
