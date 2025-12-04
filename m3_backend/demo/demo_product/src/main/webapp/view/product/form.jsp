@@ -17,6 +17,7 @@
     <div class="table-responsive shadow p-3 mb-5 bg-white rounded border-blue">
         <h1 class="text-center fw-bold mb-4">Product Management</h1>
         <a class="btn btn-sm btn-success" href="/products?action=add">Add new product</a>
+        <h2>${param.mess}</h2>
         <table class="table table-bordered align-middle">
             <thead class="table-light">
             <tr>

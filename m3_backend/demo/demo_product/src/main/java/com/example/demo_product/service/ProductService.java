@@ -15,6 +15,13 @@ public class ProductService implements IProductService{
 
     @Override
     public boolean add(Product product) {
+        for (Product p : productRepo.getAll()){
+            if (p.getName().equals(product.getName())){
+                if (p.getDescription().equals(product.getDescription())){
+                    return false;
+                }
+            }
+        }
         return productRepo.add(product);
     }
 
