@@ -32,4 +32,17 @@ public class ProductRepo implements IProductRepo{
         }
         return false;
     }
+
+    @Override
+    public boolean edit(Product product) {
+        boolean isSuccess = false;
+        for (int i = 0; i < productList.size(); i++) {
+            if (productList.get(i).getName().toLowerCase().contains(product.getName().toLowerCase())){
+                productList.set(i,product);
+                isSuccess = true;
+                break;
+            }
+        }
+        return isSuccess;
+    }
 }

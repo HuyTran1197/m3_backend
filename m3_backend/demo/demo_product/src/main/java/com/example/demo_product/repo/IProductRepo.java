@@ -8,4 +8,5 @@ public interface IProductRepo {
     List<Product> getAll();
     boolean add(Product product);
     boolean delete(String keyword);
+    boolean edit (Product product);
 }

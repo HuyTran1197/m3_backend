@@ -29,4 +29,19 @@ public class ProductService implements IProductService{
     public boolean delete(String keyword) {
         return productRepo.delete(keyword);
     }
+
+    @Override
+    public boolean edit(Product product) {
+        boolean flag = false;
+        for (Product p : productRepo.getAll()){
+            if (p.getName().toLowerCase().contains(product.getName().toLowerCase())){
+                flag = true;
+                break;
+            }
+        }
+        if (!flag){
+            return false;
+        }
+        return productRepo.edit(product);
+    }
 }
