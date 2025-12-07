@@ -1,6 +1,8 @@
 package com.example.demo_product.entity;
 
 public class Product {
+    private int id;
+    private int categoryId;
     private String name;
     private String description;
     private double price;
@@ -8,10 +10,35 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, String description, double price) {
+    public Product(int categoryId, String name, String description, double price) {
+        this.categoryId = categoryId;
         this.name = name;
         this.description = description;
         this.price = price;
+    }
+
+    public Product(int id, int categoryId, String name, String description, double price) {
+        this.id = id;
+        this.categoryId = categoryId;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

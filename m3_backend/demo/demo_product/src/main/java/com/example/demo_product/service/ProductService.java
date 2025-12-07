@@ -26,8 +26,8 @@ public class ProductService implements IProductService{
     }
 
     @Override
-    public boolean delete(String keyword) {
-        return productRepo.delete(keyword);
+    public boolean delete(int id) {
+        return productRepo.delete(id);
     }
 
     @Override
@@ -44,4 +44,10 @@ public class ProductService implements IProductService{
         }
         return productRepo.edit(product);
     }
+
+    @Override
+    public Product showDetail(int id) {
+        return productRepo.showDetail(id);
+    }
+
 }

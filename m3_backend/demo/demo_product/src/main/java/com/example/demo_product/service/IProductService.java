@@ -7,6 +7,7 @@ import java.util.List;
 public interface IProductService {
     List<Product> getAll();
     boolean add(Product product);
-    boolean delete(String keyword);
+    boolean delete(int id);
     boolean edit(Product product);
+    Product showDetail(int id);
 }

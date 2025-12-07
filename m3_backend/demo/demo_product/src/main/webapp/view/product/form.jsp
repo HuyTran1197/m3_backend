@@ -21,23 +21,33 @@
         <table class="table table-bordered align-middle">
             <thead class="table-light">
             <tr>
+                <th>ID</th>
                 <th>Name</th>
-                <th>Description</th>
                 <th>Price</th>
             </tr>
             </thead>
             <c:forEach var="product" items="${productList}" varStatus="status">
                 <tr>
+                    <td>${product.getId()}</td>
                     <td>${product.getName()}</td>
-                    <td>${product.getDescription()}</td>
                     <td>${product.getPrice()}</td>
                     <td>
-                        <button onclick="getInfoToDelete('${product.name}')" type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button onclick="getInfoToDelete('${product.id}','${product.name}')" type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             Delete
                         </button>
+                        <a href="/products?action=detail&id=${product.id}" class="btn btn-info btn-sm">
+                            Detail
+                        </a>
                     </td>
                 </tr>
             </c:forEach>
+            <tr>
+                <c:if test="${productList.isEmpty()}">
+                    <td colspan="3" class="text-center text-danger">
+                        List Product Null
+                    </td>
+                </c:if>
+            </tr>
         </table>
     </div>
 </div>
@@ -50,7 +60,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input name="keyword" id="deleteName"><span class="text-danger">Do you want to delete this product?</span>
+                    <input hidden="hidden" id="deleteId" name="deleteId">
+                    <span id="deleteName" class="p-2"></span><span class="text-danger">Do you want to delete this product?</span>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -62,8 +73,9 @@
 </div>
 </body>
 <script>
-    function getInfoToDelete(name) {
-        document.getElementById("deleteName").value = name;
+    function getInfoToDelete(id, name) {
+        document.getElementById("deleteId").value = id;
+        document.getElementById("deleteName").innerHTML = "---"+name+"---";
     }
 </script>
 </html>
