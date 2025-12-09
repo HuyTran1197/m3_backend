@@ -18,29 +18,29 @@
 
         <div class="card-body p-4">
           <!-- Nếu product null -->
-          <c:if test="${product == null}">
+          <c:if test="${productDto == null}">
             <div class="alert alert-danger text-center">
               Product not found!
             </div>
           </c:if>
           <!-- Nếu product tồn tại -->
-          <c:if test="${product != null}">
+          <c:if test="${productDto != null}">
             <table class="table table-bordered">
               <thead class="table-light">
               <tr>
                 <th>Id</th>
-                <th>Category ID</th>
+                <th>Category</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Price</th>
               </tr>
               </thead>
               <tr>
-                <td>${product.getId()}</td>
-                <td>${product.getCategoryId()}</td>
-                <td>${product.getName()}</td>
-                <td>${product.getDescription()}</td>
-                <td>${product.getPrice()}</td>
+                <td>${productDto.getId()}</td>
+                <td>${productDto.getCategoryName()}</td>
+                <td>${productDto.getName()}</td>
+                <td>${productDto.getDescription()}</td>
+                <td>${productDto.getPrice()}</td>
               </tr>
             </table>
             <div class="text-center mt-4">

@@ -38,6 +38,9 @@
                         <a href="/products?action=detail&id=${product.id}" class="btn btn-info btn-sm">
                             Detail
                         </a>
+                        <a href="/products?action=edit&id=${product.id}" class="btn btn-dark btn-sm color-white">
+                            Edit
+                        </a>
                     </td>
                 </tr>
             </c:forEach>

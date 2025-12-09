@@ -18,3 +18,8 @@ select * from products;
 insert into category(name) values("Smartphone"),
 ("Television"),
 ("Computer");
+
+select p.id,p.name,p.description,p.price, c.name as category_name 
+from products p 
+join category c on c.id = p.category_id;
+

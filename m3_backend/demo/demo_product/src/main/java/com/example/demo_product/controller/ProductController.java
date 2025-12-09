@@ -1,5 +1,6 @@
 package com.example.demo_product.controller;
 
+import com.example.demo_product.dto.ProductDto;
 import com.example.demo_product.entity.Product;
 import com.example.demo_product.service.IProductService;
 import com.example.demo_product.service.ProductService;
@@ -29,6 +30,9 @@ public class ProductController extends HttpServlet {
             case "detail":
                 showDetail(req,resp);
                 break;
+            case "edit":
+                showEdit(req,resp);
+                break;
             default:
                 showList(req,resp);
                 break;
@@ -36,10 +40,23 @@ public class ProductController extends HttpServlet {
 
     }
 
+    private void showEdit(HttpServletRequest req, HttpServletResponse resp) {
+        int id = Integer.parseInt(req.getParameter("id"));
+        Product product = productService.showEdit(id);
+        req.setAttribute("product",product);
+        try {
+            req.getRequestDispatcher("/view/product/edit.jsp").forward(req,resp);
+        } catch (ServletException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private void showDetail(HttpServletRequest req, HttpServletResponse resp) {
         int id = Integer.parseInt(req.getParameter("id"));
-        Product product = productService.showDetail(id);
-        req.setAttribute("product",product);
+        ProductDto productDto = productService.showDetail(id);
+        req.setAttribute("productDto",productDto);
         try {
             req.getRequestDispatcher("/view/product/detail.jsp").forward(req,resp);
         } catch (ServletException e) {
@@ -51,7 +68,7 @@ public class ProductController extends HttpServlet {
     }
 
     private void showList(HttpServletRequest req, HttpServletResponse resp) {
-        List<Product> productList = productService.getAll();
+        List<ProductDto> productList = productService.getAll();
         req.setAttribute("productList",productList);
         try {
             req.getRequestDispatcher("/view/product/form.jsp").forward(req,resp);
@@ -84,6 +101,9 @@ public class ProductController extends HttpServlet {
                 break;
             case "delete":
                 deleteById(req,resp);
+                break;
+            case "edit":
+                updateProduct(req,resp);
                 break;
             default:
         }
@@ -125,7 +145,7 @@ public class ProductController extends HttpServlet {
 
         if (name==null || name.trim().isEmpty()){
             nameErr = "name must not be null!";
-        } else if (!Validate.checkName(name)) {
+        } else if (!Validate.checkDes(name)) {
             nameErr = "Invalid name, please fill again";
         }
 
@@ -163,6 +183,77 @@ public class ProductController extends HttpServlet {
         Product product = new Product(categoryId,name,description,setPrice);
         boolean isSuccess = productService.add(product);
         String mess = isSuccess ? "Add new success" : "Add new fail";
+        try {
+            resp.sendRedirect("/products?mess="+mess);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void updateProduct(HttpServletRequest req, HttpServletResponse resp) {
+        int id = Integer.parseInt(req.getParameter("id"));
+        String categoryIdStrUp = req.getParameter("categoryIdStrUp");
+        int categoryId = 0;
+        String name = req.getParameter("name");
+        String description = req.getParameter("description");
+        String price = req.getParameter("price");
+        double setPrice = 0;
+        String categoryErr = "";
+        String nameErr = "";
+        String desErr = "";
+        String priceErr = "";
+
+        if (categoryIdStrUp==null || categoryIdStrUp.trim().isEmpty()){
+            categoryErr = "category must not be null";
+        }else {
+            try {
+                categoryId = Integer.parseInt(categoryIdStrUp);
+                if (categoryId<=0) categoryErr = "the number cannot less than 0";
+            } catch (NumberFormatException e) {
+                categoryErr = "categoryId must be a number";
+            }
+        }
+
+        if (name==null || name.trim().isEmpty()){
+            nameErr = "name must not be null!";
+        } else if (!Validate.checkDes(name)) {
+            nameErr = "Invalid name, please fill again";
+        }
+
+        if (description==null || description.trim().isEmpty()){
+            desErr = "string must not be null!";
+        } else if (!Validate.checkDes(description)) {
+            desErr = "Invalid string, please fill again";
+        }
+
+        if (price == null || price.trim().isEmpty()){
+            priceErr = "price must not be null";
+        }else {
+            try {
+                setPrice = Double.parseDouble(price);
+                if (setPrice<0) priceErr = "price cannot less than 0 ";
+            }catch (NumberFormatException e){
+                priceErr = "price must be a number";
+            }
+        }
+
+        if (!categoryErr.isEmpty() || !nameErr.isEmpty() || !desErr.isEmpty() || !priceErr.isEmpty()) {
+            if (!categoryErr.isEmpty()) req.setAttribute("categoryErr",categoryErr);
+            if(!desErr.isEmpty()) req.setAttribute("desErr",desErr);
+            if (!nameErr.isEmpty()) req.setAttribute("nameErr",nameErr);
+            if (!priceErr.isEmpty()) req.setAttribute("priceErr",priceErr);
+            try {
+                req.getRequestDispatcher("/view/product/edit.jsp").forward(req,resp);
+            } catch (ServletException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return;
+        }
+        Product product = new Product(id,categoryId,name,description,setPrice);
+        boolean isSuccess = productService.edit(product);
+        String mess = isSuccess ? "Edit success" : "Edit fail";
         try {
             resp.sendRedirect("/products?mess="+mess);
         } catch (IOException e) {
