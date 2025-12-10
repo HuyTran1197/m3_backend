@@ -52,13 +52,15 @@
 
                     <form action="/products?action=add" method="post">
                         <div class="mb-3">
-                            <label class="form-label">CategoryId</label>
-                            <input
-                                    type="text"
-                                    name="categoryIdStr"
-                                    class="form-control ${not empty categoryErr ? 'is-invalid' : ''}"
-                                    value="${categoryIdStr}"
-                            >
+                            <label class="form-label">Category</label>
+                            <select name="categoryIdStr" class="select-select ${not empty categoryErr ? 'is-invalid' : ''}">
+                                <option value=""></option>
+                                <c:forEach var="ctg" items="${categoryList}">
+                                    <option value="${ctg.id}"
+                                            <c:if test="${ctg.id == categoryIdStr}">selected</c:if>
+                                    >${ctg.name}</option>
+                                </c:forEach>
+                            </select>
                             <c:if test="${not empty categoryErr}">
                                 <div class="invalid-feedback">
                                         ${categoryErr}

@@ -26,13 +26,15 @@
           <form action="/products?action=edit" method="post">
             <input type="hidden" name="id" value="${product.id}">
             <div class="mb-3">
-              <label class="form-label">CategoryId</label>
-              <input
-                      type="text"
-                      name="categoryIdStrUp"
-                      class="form-control ${not empty categoryErr ? 'is-invalid' : ''}"
-                      value="${categoryIdStrUp}"
-              >
+              <label class="form-label">Category</label>
+              <select name="categoryIdStrUp" class="select-select ${not empty categoryErr ? 'is-invalid' : ''}">
+                <option value=""></option>
+                <c:forEach var="ctg" items="${categoryList}">
+                  <option value="${ctg.id}"
+                          <c:if test="${ctg.id == categoryIdStrUp}">selected</c:if>
+                  >${ctg.name}</option>
+                </c:forEach>
+              </select>
               <c:if test="${not empty categoryErr}">
                 <div class="invalid-feedback">
                     ${categoryErr}

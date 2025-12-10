@@ -17,19 +17,23 @@
     <div class="table-responsive shadow p-3 mb-5 bg-white rounded border-blue">
         <h1 class="text-center fw-bold mb-4">Product Management</h1>
         <a class="btn btn-sm btn-success" href="/products?action=add">Add new product</a>
+        <form action="/products" style="float: right">
+            <input type="text" name="keyword"  placeholder="Search" value="${param.keyword}"/>
+            <button type="submit" name="action" value="search">Search</button>
+        </form>
         <h2>${param.mess}</h2>
         <table class="table table-bordered align-middle">
             <thead class="table-light">
             <tr>
-                <th>ID</th>
                 <th>Name</th>
+                <th>Category</th>
                 <th>Price</th>
             </tr>
             </thead>
             <c:forEach var="product" items="${productList}" varStatus="status">
                 <tr>
-                    <td>${product.getId()}</td>
                     <td>${product.getName()}</td>
+                    <td>${product.getCategoryName()}</td>
                     <td>${product.getPrice()}</td>
                     <td>
                         <button onclick="getInfoToDelete('${product.id}','${product.name}')" type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">

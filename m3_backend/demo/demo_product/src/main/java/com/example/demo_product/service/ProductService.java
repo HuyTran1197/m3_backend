@@ -64,4 +64,9 @@ public class ProductService implements IProductService{
         }
         return product;
     }
+
+    @Override
+    public List<ProductDto> search(String keyword) {
+        return productRepo.search(keyword);
+    }
 }

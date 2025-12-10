@@ -11,4 +11,5 @@ public interface IProductRepo {
     boolean delete(int id);
     boolean edit (Product product);
     ProductDto showDetail(int id);
+    List<ProductDto> search(String keyword);
 }

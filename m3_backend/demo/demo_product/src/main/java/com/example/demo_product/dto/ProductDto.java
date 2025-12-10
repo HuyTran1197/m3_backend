@@ -2,18 +2,18 @@ package com.example.demo_product.dto;
 
 public class ProductDto {
     private int id;
-    private String categoryName;
     private String name;
+    private String categoryName;
     private String description;
     private double price;
 
     public ProductDto() {
     }
 
-    public ProductDto(int id, String categoryName, String name, String description, double price) {
+    public ProductDto(int id, String name, String categoryName, String description, double price) {
         this.id = id;
-        this.categoryName = categoryName;
         this.name = name;
+        this.categoryName = categoryName;
         this.description = description;
         this.price = price;
     }

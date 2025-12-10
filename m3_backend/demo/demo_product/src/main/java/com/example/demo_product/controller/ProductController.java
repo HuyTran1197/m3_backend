@@ -2,6 +2,8 @@ package com.example.demo_product.controller;
 
 import com.example.demo_product.dto.ProductDto;
 import com.example.demo_product.entity.Product;
+import com.example.demo_product.service.CategoryService;
+import com.example.demo_product.service.ICategoryService;
 import com.example.demo_product.service.IProductService;
 import com.example.demo_product.service.ProductService;
 import com.example.demo_product.util.Validate;
@@ -17,6 +19,7 @@ import java.util.List;
 @WebServlet(name = "productController",value = "/products")
 public class ProductController extends HttpServlet {
     private IProductService productService = new ProductService();
+    private ICategoryService categoryService = new CategoryService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
@@ -33,6 +36,9 @@ public class ProductController extends HttpServlet {
             case "edit":
                 showEdit(req,resp);
                 break;
+            case "search":
+                showProduct(req,resp);
+                break;
             default:
                 showList(req,resp);
                 break;
@@ -40,11 +46,31 @@ public class ProductController extends HttpServlet {
 
     }
 
+    private void showProduct(HttpServletRequest req, HttpServletResponse resp) {
+        String keyword = req.getParameter("keyword");
+        List<ProductDto> productDtoList;
+        if (keyword !=null && !keyword.trim().isEmpty()){
+            String likeKeyword = "%"+keyword.toLowerCase()+"%";
+            productDtoList = productService.search(likeKeyword);
+        }else {
+            productDtoList = productService.getAll();
+        }
+        req.setAttribute("productList",productDtoList);
+        try {
+            req.getRequestDispatcher("/view/product/form.jsp").forward(req,resp);
+        } catch (ServletException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private void showEdit(HttpServletRequest req, HttpServletResponse resp) {
         int id = Integer.parseInt(req.getParameter("id"));
         Product product = productService.showEdit(id);
         req.setAttribute("product",product);
         try {
+            req.setAttribute("categoryList",categoryService.getAll());
             req.getRequestDispatcher("/view/product/edit.jsp").forward(req,resp);
         } catch (ServletException e) {
             throw new RuntimeException(e);
@@ -81,6 +107,7 @@ public class ProductController extends HttpServlet {
 
     private void showFormAdd(HttpServletRequest req, HttpServletResponse resp) {
         try {
+            req.setAttribute("categoryList",categoryService.getAll());
             req.getRequestDispatcher("/view/product/add.jsp").forward(req,resp);
         } catch (ServletException e) {
             throw new RuntimeException(e);
@@ -145,7 +172,7 @@ public class ProductController extends HttpServlet {
 
         if (name==null || name.trim().isEmpty()){
             nameErr = "name must not be null!";
-        } else if (!Validate.checkDes(name)) {
+        } else if (!Validate.checkName(name)) {
             nameErr = "Invalid name, please fill again";
         }
 
@@ -167,10 +194,17 @@ public class ProductController extends HttpServlet {
         }
 
         if (!categoryErr.isEmpty() || !nameErr.isEmpty() || !desErr.isEmpty() || !priceErr.isEmpty()) {
-            if (!categoryErr.isEmpty()) req.setAttribute("categoryErr",categoryErr);
-            if(!desErr.isEmpty()) req.setAttribute("desErr",desErr);
-            if (!nameErr.isEmpty()) req.setAttribute("nameErr",nameErr);
-            if (!priceErr.isEmpty()) req.setAttribute("priceErr",priceErr);
+            req.setAttribute("categoryList",categoryService.getAll());
+
+            req.setAttribute("categoryIdStr",categoryIdStr);
+            req.setAttribute("name",name);
+            req.setAttribute("description",description);
+            req.setAttribute("price",price);
+
+            req.setAttribute("categoryErr",categoryErr);
+            req.setAttribute("nameErr",nameErr);
+            req.setAttribute("desErr",desErr);
+            req.setAttribute("priceErr",priceErr);
             try {
                 req.getRequestDispatcher("/view/product/add.jsp").forward(req,resp);
             } catch (ServletException e) {
@@ -216,7 +250,7 @@ public class ProductController extends HttpServlet {
 
         if (name==null || name.trim().isEmpty()){
             nameErr = "name must not be null!";
-        } else if (!Validate.checkDes(name)) {
+        } else if (!Validate.checkName(name)) {
             nameErr = "Invalid name, please fill again";
         }
 
@@ -238,10 +272,17 @@ public class ProductController extends HttpServlet {
         }
 
         if (!categoryErr.isEmpty() || !nameErr.isEmpty() || !desErr.isEmpty() || !priceErr.isEmpty()) {
-            if (!categoryErr.isEmpty()) req.setAttribute("categoryErr",categoryErr);
-            if(!desErr.isEmpty()) req.setAttribute("desErr",desErr);
-            if (!nameErr.isEmpty()) req.setAttribute("nameErr",nameErr);
-            if (!priceErr.isEmpty()) req.setAttribute("priceErr",priceErr);
+            req.setAttribute("categoryList",categoryService.getAll());
+
+            req.setAttribute("categoryIdStrUp",categoryIdStrUp);
+            req.setAttribute("name",name);
+            req.setAttribute("description",description);
+            req.setAttribute("price",price);
+
+            req.setAttribute("categoryErr",categoryErr);
+            req.setAttribute("nameErr",nameErr);
+            req.setAttribute("desErr",desErr);
+            req.setAttribute("priceErr",priceErr);
             try {
                 req.getRequestDispatcher("/view/product/edit.jsp").forward(req,resp);
             } catch (ServletException e) {
