@@ -12,5 +12,5 @@ public interface IProductService {
     boolean edit(Product product);
     ProductDto showDetail(int id);
     Product showEdit(int id);
-    List<ProductDto> search(String keyword);
+    List<ProductDto> search(String searchName,String categoryName);
 }

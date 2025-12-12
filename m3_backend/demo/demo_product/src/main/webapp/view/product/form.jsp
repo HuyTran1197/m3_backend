@@ -17,9 +17,19 @@
     <div class="table-responsive shadow p-3 mb-5 bg-white rounded border-blue">
         <h1 class="text-center fw-bold mb-4">Product Management</h1>
         <a class="btn btn-sm btn-success" href="/products?action=add">Add new product</a>
-        <form action="/products" style="float: right">
-            <input type="text" name="keyword"  placeholder="Search" value="${param.keyword}"/>
-            <button type="submit" name="action" value="search">Search</button>
+        <a class="btn btn-sm btn-success" href="/products?action=category">Category List</a>
+        <form action="/products" method="get" style="float: right">
+            <input hidden="hidden" name="action" value="search"/>
+            <input name="name"  placeholder="Search" value="${name}"/>
+            <select name="category">
+                <option value="">--Select category--</option>
+                <c:forEach var="category" items="${categoryList}">
+                    <option value="${category.id}">
+                            ${category.name}
+                    </option>
+                </c:forEach>
+            </select>
+            <button>Search</button>
         </form>
         <h2>${param.mess}</h2>
         <table class="table table-bordered align-middle">

@@ -23,3 +23,7 @@ select p.id,p.name,p.description,p.price, c.name as category_name
 from products p 
 join category c on c.id = p.category_id;
 
+select c.*, p.name as products_name 
+from category c
+join products p on c.id = p.category_id;
+

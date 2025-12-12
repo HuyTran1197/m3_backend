@@ -1,6 +1,7 @@
 package com.example.demo_product.service;
 
 import com.example.demo_product.dto.ProductDto;
+import com.example.demo_product.entity.Category;
 import com.example.demo_product.entity.Product;
 import com.example.demo_product.repo.IProductRepo;
 import com.example.demo_product.repo.ProductRepo;
@@ -66,7 +67,9 @@ public class ProductService implements IProductService{
     }
 
     @Override
-    public List<ProductDto> search(String keyword) {
-        return productRepo.search(keyword);
+    public List<ProductDto> search(String searchName, String categoryName) {
+        return productRepo.search(searchName,categoryName);
     }
+
+
 }

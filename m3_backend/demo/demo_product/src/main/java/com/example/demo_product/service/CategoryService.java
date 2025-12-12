@@ -12,4 +12,8 @@ public class CategoryService implements ICategoryService{
     public List<Category> getAll() {
         return categoryRepository.getAll();
     }
+
+//    public List<Category> showProduct(){
+//
+//    }
 }

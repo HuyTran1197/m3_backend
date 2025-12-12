@@ -24,10 +24,14 @@ public class ProductRepo implements IProductRepo{
     private final String INSERT_INTO = "insert into products(category_id,name,description,price) values(?,?,?,?)";
     private final String DELETE_PRODUCT = "delete from products where id = ?";
     private final String UPDATE_PRODUCT = "update products set category_id=?, name=?,description=?,price=? where id = ?";
-    private final String SELECT_KEYWORD = "select p.id,p.name,p.description,p.price,c.name as category_name " +
+    private final String SEARCH_ALL = "select p.id,p.name,p.description,p.price,c.name as category_name " +
             "from products p " +
             "join category c on c.id = p.category_id " +
-            "where lower(p.name) like ? or lower(c.name) like ?";
+            "where p.name like ? and c.id = ?";
+    private final String SEARCH_NAME = "select p.id,p.name,p.description,p.price,c.name as category_name " +
+            "from products p " +
+            "join category c on c.id = p.category_id " +
+            "where p.name like ?";
 
     @Override
     public List<ProductDto> getAll() {
@@ -117,12 +121,18 @@ public class ProductRepo implements IProductRepo{
     }
 
     @Override
-    public List<ProductDto> search(String keyword) {
+    public List<ProductDto> search(String searchName,String categoryName) {
         List<ProductDto> productDto = new ArrayList<>();
         try(Connection connection = ConnectDB.getConnectDB()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_KEYWORD);
-            preparedStatement.setString(1,keyword);
-            preparedStatement.setString(2,keyword);
+            PreparedStatement preparedStatement = null;
+            if (categoryName.equals("")){
+                preparedStatement = connection.prepareStatement(SEARCH_NAME);
+                preparedStatement.setString(1,"%"+searchName+"%");
+            }else {
+                preparedStatement = connection.prepareStatement(SEARCH_ALL);
+                preparedStatement.setString(1,"%"+searchName+"%");
+                preparedStatement.setString(2,categoryName);
+            }
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
                 int id = resultSet.getInt("id");
