@@ -1,5 +1,6 @@
 package com.example.demo_product.controller;
 
+import com.example.demo_product.dto.CategoryDto;
 import com.example.demo_product.dto.ProductDto;
 import com.example.demo_product.entity.Category;
 import com.example.demo_product.entity.Product;
@@ -51,9 +52,9 @@ public class ProductController extends HttpServlet {
     }
 
     private void showListCategory(HttpServletRequest req, HttpServletResponse resp) {
-        List<Category> categoryList = categoryService.getAll();
+        List<CategoryDto> showCategory = categoryService.getAllDto();
         try {
-            req.setAttribute("categoryList",categoryList);
+            req.setAttribute("showCategory",showCategory);
             req.getRequestDispatcher("/view/product/category.jsp").forward(req,resp);
         } catch (ServletException e) {
             throw new RuntimeException(e);
