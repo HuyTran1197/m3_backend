@@ -2,7 +2,6 @@ package com.example.demo_product.controller;
 
 import com.example.demo_product.dto.CategoryDto;
 import com.example.demo_product.dto.ProductDto;
-import com.example.demo_product.entity.Category;
 import com.example.demo_product.entity.Product;
 import com.example.demo_product.service.CategoryService;
 import com.example.demo_product.service.ICategoryService;

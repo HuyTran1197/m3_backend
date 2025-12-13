@@ -6,7 +6,7 @@ public class Validate {
         return regex.matches(nameRegex);
     }
     public static boolean checkDes(String regex){
-        String nameRegex = "^\\w+(\\s\\w+)*$";
+        String nameRegex = "^[\\p{L}\\d]+[.,]?(\\s([\\p{L}\\d]+[%-]?[.,]?)+)*$";
         return regex.matches(nameRegex);
     }
 }

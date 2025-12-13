@@ -25,5 +25,5 @@ join category c on c.id = p.category_id;
 
 select c.*, p.name as products_name 
 from category c
-join products p on c.id = p.category_id;
+left join products p on c.id = p.category_id;
 
